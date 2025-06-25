@@ -1,0 +1,30 @@
+# Core Django and dependencies
+Django==5.2
+djangorestframework==3.16.0
+django-cors-headers==4.7.0
+django-filter==25.1
+
+# Authentication
+djangorestframework_simplejwt==5.5.0
+PyJWT==2.9.0
+python-dateutil   
+
+# Database support (Render uses PostgreSQL)
+psycopg2-binary==2.9.10
+dj-database-url==2.3.0
+
+# Static files handling in production
+whitenoise==6.9.0
+
+# Production WSGI server
+gunicorn==23.0.0
+
+# Optional utilities
+asgiref==3.8.1
+Markdown==3.8
+packaging==25.0
+pillow==11.2.1
+python-dotenv==1.1.0
+sqlparse==0.5.3
+typing_extensions==4.13.2
+tzdata==2025.2
