@@ -17,8 +17,9 @@ class RegisterView(APIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
@@ -26,7 +27,8 @@ class RegisterView(APIView):
         tokens = get_tokens_for_user(user)
         return Response({
             "user": UserSerializer(user).data,
-            "tokens": tokens
+            "tokens": tokens,
+            "message":"User Created Successfully"
         }, status=status.HTTP_201_CREATED)
 
 class LoginView(APIView):

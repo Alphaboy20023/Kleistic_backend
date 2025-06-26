@@ -26,7 +26,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-qkc-w83m@muacbd*++fqs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['klestic.netlify.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['kleistic-backend.onrender.com', 'localhost', '127.0.0.1', 'kleistic.netlify.app']
+
 
 
 CORS_ALLOW_ALL_ORIGINS = False
