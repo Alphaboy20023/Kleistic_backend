@@ -15,6 +15,8 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 from datetime import timedelta
+from corsheaders.defaults import default_headers
+
 
 load_dotenv()
 
@@ -32,6 +34,13 @@ ALLOWED_HOSTS = ['kleistic-backend.onrender.com', 'localhost', '127.0.0.1', 'kle
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-type',
+    'authorization',
+    'x-csrftoken',
+]
+
 
 CORS_ALLOWED_ORIGINS = [
     "https://kleistic.netlify.app", 
