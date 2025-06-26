@@ -1,5 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import RegisterSerializer, LoginSerializer, UserSerializer
@@ -12,26 +13,23 @@ def get_tokens_for_user(user):
         'access': str(refresh.access_token),
     }
 
-class RegisterView(generics.CreateAPIView):
+class RegisterView(APIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        
-        if not serializer.is_valid(raise_exception=True):
-            print("❌ Registration failed:", serializer.errors)  # 👈 log the reason
+        if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        user = serializer.save()
         
+        user = serializer.save()
         tokens = get_tokens_for_user(user)
         return Response({
             "user": UserSerializer(user).data,
             "tokens": tokens
         }, status=status.HTTP_201_CREATED)
 
-
-class LoginView(generics.GenericAPIView):
+class LoginView(APIView):
     serializer_class = LoginSerializer
     permission_classes = [AllowAny]
 
