@@ -1,1 +1,1 @@
-web: gunicorn kleistic_app.wsgi:application
+web: gunicorn kelistic_app.wsgi:application
