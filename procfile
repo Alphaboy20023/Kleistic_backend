@@ -1,1 +1,1 @@
-web: gunicorn school_inventory.wsgi:application
+web: gunicorn kleistic-backend.wsgi:application
