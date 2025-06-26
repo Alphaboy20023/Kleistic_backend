@@ -31,13 +31,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         return CustomUser.objects.create_user(**validated_data)
 
 
-class LoginSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
     
     user = authenticate(username=username, password=password)
 
     def validate(self, data):
+        username = data.get('username')
+        password = data.get('password')
         user = authenticate(username=data['username'], password=data['password'])
         
         if user and user.is_active:
