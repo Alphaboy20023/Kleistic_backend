@@ -18,8 +18,12 @@ class RegisterView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        
+        if not serializer.is_valid(raise_exception=True):
+            print("❌ Registration failed:", serializer.errors)  # 👈 log the reason
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         user = serializer.save()
+        
         tokens = get_tokens_for_user(user)
         return Response({
             "user": UserSerializer(user).data,
