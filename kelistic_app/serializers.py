@@ -2,6 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from .models import CustomUser
 from django.contrib import messages
+from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,14 +35,12 @@ class LoginSerializer(serializers.ModelSerializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
     
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'password']
+    user = authenticate(username=username, password=password)
 
     def validate(self, data):
         user = authenticate(username=data['username'], password=data['password'])
+        
         if user and user.is_active:
-            
             return {
                 "user":user,
                 "message":"login successful"

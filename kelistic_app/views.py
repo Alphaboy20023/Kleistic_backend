@@ -36,15 +36,22 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        validated_data = serializer.validated_data
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            validated_data = serializer.validated_data
+            
+            message = validated_data["message"]
+            user = validated_data['user']
+            tokens = get_tokens_for_user(user)
+
+            return Response({
+                "message": message,
+                "user": UserSerializer(user).data,
+                "tokens": tokens
+            }, status=status.HTTP_200_OK)
         
-        message= validated_data["message"]
-        user=validated_data['user']
-        tokens = get_tokens_for_user(user)
-        return Response({
-            "message":message,
-            "user": UserSerializer(user).data,
-            # "tokens": tokens
-        }, status=status.HTTP_200_OK)
+        except Exception as e:
+            import traceback
+            print("🔥 Login Error Traceback:\n", traceback.format_exc())  # See this in Render logs
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
