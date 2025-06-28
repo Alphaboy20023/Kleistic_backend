@@ -55,8 +55,8 @@ class LoginView(APIView):
 
         except Exception as e:
             print("LOGIN ERROR:", e)
-            traceback.print_exc()  # 💥 this prints full traceback in logs
+            traceback.print_exc() 
             return Response(
-                {"detail": "Something went wrong."},
+                {"detail": "Sorry, this account does not exist"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
